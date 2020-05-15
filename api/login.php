@@ -1,16 +1,16 @@
 <?php
 include "functions.php";
 
-if(empty($_REQUEST['email']) || empty($_REQUEST['password'])){
+if(empty($_REQUEST['username']) || empty($_REQUEST['password'])){
     header('Location: ../index.php');
 }
 else{
-    $email = $_REQUEST['email'];
+    $username = $_REQUEST['username'];
     $password = $_REQUEST['password'];
 
-    $emailExist = isEmailExist($email);
-    if($emailExist){
-        $result = login($email, $password);
+    $usernameExist = isUsernameExist(username);
+    if($usernameExist){
+        $result = login($username, $password);
         echo json_encode($result);
         /*if($result){
             echo json_encode($result);
@@ -18,7 +18,7 @@ else{
             echo json_encode($result);
         }*/
     } else {
-        echo json_encode("Email does not exist.");
+        echo json_encode("Username does not exist.");
     }
 
 }

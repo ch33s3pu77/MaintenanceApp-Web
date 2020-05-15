@@ -1,10 +1,10 @@
 <?php
-function login($email, $password){
+function login($username, $password){
     global $con;
-    $USER_EMAIL = mysqli_real_escape_string($con, $email);
+    $USER_NAME = mysqli_real_escape_string($con, $username);
     $USER_PASSWORD = mysqli_real_escape_string($con, $password);
 
-    $query = "SELECT * FROM users WHERE email = '$USER_EMAIL'";
+    $query = "SELECT * FROM user WHERE User_Name = '$USER_NAME'";
     $result = mysqli_query($con, $query);
     if($result){
         $rowcount = mysqli_num_rows($result);
@@ -24,10 +24,46 @@ function login($email, $password){
     }
 }
 
-function isEmailExist($email){
+function newJob(){
+
+}
+
+function putOnHold(){
+
+}
+
+function signOff(){
+
+}
+
+function myJobs(){
+
+}
+
+function jobOrder(){
+
+}
+
+function completed(){
+
+}
+
+function inProgress(){
+
+}
+
+function onHold(){
+
+}
+
+function notStarted(){
+
+}
+
+function isUsernameExist($username){
     global $con;
 
-    $query = "SELECT email FROM users WHERE email = '$email'";
+    $query = "SELECT User_Name FROM users WHERE email = '$username'";
     $result = mysqli_query($con, $query);
     if($result){
         $rows = mysqli_num_rows($result);
