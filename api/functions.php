@@ -82,8 +82,25 @@ function jobOrder($jobid, $userid){
     }
 }
 
-function completed($status, $username){
+function completed($userid){
     global $con;
+    global $con;
+    $USER_ID = mysqli_real_escape_string($con, $userid);
+
+
+    $query = "SELECT Job_ID, Type, Priority, Status, Location";
+    $query .= "FROM job_order, asset";
+    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
+    $query .= "AND User_ID = '$USER_ID'";
+    $query .= "AND Status = complete";
+
+    $result = mysqli_query($con, $query);
+    if($result){
+        return $result;
+    } else {
+        die("Query Failed " . mysqli_error($con));
+        //return "Query failed";
+    }
 }
 
 function inProgress($status, $username){
