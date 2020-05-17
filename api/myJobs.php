@@ -20,6 +20,7 @@ else{
                $output['Priority'] = $rows['Priority'];
                $output['Status'] = $rows['Status'];
                $output['Location'] = $rows['Location'];
+               echo json_encode($output);
             }
 
         }
