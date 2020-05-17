@@ -11,7 +11,7 @@ else{
 
     if($useridExist){
 
-        $result = myJobs($userid);
+        $result = completed($userid);
         if($result != false){
             //$rows = mysqli_fetch_array($result);
             while($rows =mysqli_fetch_assoc($result)){

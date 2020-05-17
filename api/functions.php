@@ -42,7 +42,7 @@ function myJobs($userid){
     global $con;
     $USER_ID = mysqli_real_escape_string($con, $userid);
 
-    $query = "SELECT Job_ID, Type, Priority, Status, Location";
+    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, job_order.Status, asset.Location";
     $query .= "FROM job_order, asset";
     $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
     $query .= "AND User_ID = '$USER_ID'";
@@ -84,11 +84,9 @@ function jobOrder($jobid, $userid){
 
 function completed($userid){
     global $con;
-    global $con;
     $USER_ID = mysqli_real_escape_string($con, $userid);
 
-
-    $query = "SELECT Job_ID, Type, Priority, Status, Location";
+    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location";
     $query .= "FROM job_order, asset";
     $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
     $query .= "AND User_ID = '$USER_ID'";
@@ -103,16 +101,61 @@ function completed($userid){
     }
 }
 
-function inProgress($status, $username){
+function inProgress($userid){
     global $con;
+    $USER_ID = mysqli_real_escape_string($con, $userid);
+
+    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location";
+    $query .= "FROM job_order, asset";
+    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
+    $query .= "AND User_ID = '$USER_ID'";
+    $query .= "AND Status = in_progress";
+
+    $result = mysqli_query($con, $query);
+    if($result){
+        return $result;
+    } else {
+        die("Query Failed " . mysqli_error($con));
+        //return "Query failed";
+    }
 }
 
-function onHold($status, $username){
+function onHold($userid){
     global $con;
+    $USER_ID = mysqli_real_escape_string($con, $userid);
+
+    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location";
+    $query .= "FROM job_order, asset";
+    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
+    $query .= "AND User_ID = '$USER_ID'";
+    $query .= "AND Status = on_hold";
+
+    $result = mysqli_query($con, $query);
+    if($result){
+        return $result;
+    } else {
+        die("Query Failed " . mysqli_error($con));
+        //return "Query failed";
+    }
 }
 
-function notStarted($status, $username){
+function notStarted($userid){
     global $con;
+    $USER_ID = mysqli_real_escape_string($con, $userid);
+
+    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location";
+    $query .= "FROM job_order, asset";
+    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
+    $query .= "AND User_ID = '$USER_ID'";
+    $query .= "AND Status = not_started";
+
+    $result = mysqli_query($con, $query);
+    if($result){
+        return $result;
+    } else {
+        die("Query Failed " . mysqli_error($con));
+        //return "Query failed";
+    }
 }
 
 function measures($measureId){
