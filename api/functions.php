@@ -26,9 +26,23 @@ function login($username, $password){
     }
 }
 
-function newJob($asset, $calibrationType, $notes, $priority){
+function newJob($userid, $asset, $calibrationType, $notes, $priority, $dateRaised){
     global $con;
+    $USER_ID = mysqli_real_escape_string($con, $userid);
+    $ASSET_ID = mysqli_real_escape_string($con, $asset);
+    $CALIBRATION_TYPE = mysqli_real_escape_string($con, $calibrationType);
+    $DESCRIPTION = mysqli_real_escape_string($con, $notes);
+    $PRIORITY = mysqli_real_escape_string($con, $priority);
 
+    $query = "INSERT INTO 'job_order'('User_ID','Asset_ID','Type','Description','Date_Raised','Priority', 'Status')";
+    $query .= "VALUES('$USER_ID','$ASSET_ID','$CALIBRATION_TYPE','$DESCRIPTION','$dateRaised','$PRIORITY', not_started)";
+
+    $result = mysqli_query($query);
+    if($result){
+        return $result;
+    } else {
+        die("Query Failed " . mysqli_error($con));
+    }
 }
 
 function putOnHold($jobid, $holdDate, $holdReason, $holdNotes){
