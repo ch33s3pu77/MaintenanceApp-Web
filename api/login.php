@@ -8,7 +8,7 @@ else{
     $username = $_REQUEST['username'];
     $password = $_REQUEST['password'];
 
-    $usernameExist = isUsernameExist(username);
+    $usernameExist = isUsernameExist($username);
     if($usernameExist){
         $result = login($username, $password);
         echo json_encode($result);

@@ -1,4 +1,6 @@
 <?php
+include "../auth/db.php";
+
 function login($username, $password){
     global $con;
     $USER_NAME = mysqli_real_escape_string($con, $username);
@@ -24,54 +26,71 @@ function login($username, $password){
     }
 }
 
-function newJob(){
-
+function newJob($asset, $calibrationType, $notes, $priority){
+    global $con;
 }
 
-function putOnHold(){
-
+function putOnHold($holdDate, $holdReason, $holdNotes){
+    global $con;
 }
 
-function signOff(){
-
+function signOff($asset, $calibrationType, $resultOne, $resultTwo, $resultThree, $resultFour, $resultFive, $passFail1, $passFail2, $passFail3, $passFail4, $passFail5, $overallPassFail, $notes){
+    global $con;
 }
 
-function myJobs(){
+function myJobs($userid){
+    global $con;
+    $USER_ID = mysqli_real_escape_string($con, $userid);
 
+    $query = "SELECT Job_ID, Type, Priority, Status, Location";
+    $query .= "FROM job_order, asset";
+    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
+    $query .= "AND User_ID = '$USER_ID'";
+
+    $result = mysqli_query($con, $query);
+    if($result){
+        return $result;
+    } else {
+        die("Query Failed " . mysqli_error($con));
+        //return "Query failed";
+    }
 }
 
 function jobOrder(){
-
+    global $con;
 }
 
-function completed(){
-
+function completed($status, $username){
+    global $con;
 }
 
-function inProgress(){
-
+function inProgress($status, $username){
+    global $con;
 }
 
-function onHold(){
-
+function onHold($status, $username){
+    global $con;
 }
 
-function notStarted(){
-
+function notStarted($status, $username){
+    global $con;
 }
 
-function isUsernameExist($username){
+function measures($measureId){
+    global $con;
+}
+
+function startJob($jobId){
+    global $con;
+}
+
+function isUseridExist($userid){
     global $con;
 
-    $query = "SELECT User_Name FROM users WHERE email = '$username'";
+    $query = "SELECT User_ID FROM users WHERE email = '$userid'";
     $result = mysqli_query($con, $query);
     if($result){
-        $rows = mysqli_num_rows($result);
-        if($rows >= 1){
-            return true;
-        } else {
-            return false;
-        }
+        return true;
     } else {
         die("Query Failed " . mysqli_error($con));
         //return "Query Failed";
