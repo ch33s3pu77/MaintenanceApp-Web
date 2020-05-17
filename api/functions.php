@@ -28,10 +28,27 @@ function login($username, $password){
 
 function newJob($asset, $calibrationType, $notes, $priority){
     global $con;
+
 }
 
-function putOnHold($holdDate, $holdReason, $holdNotes){
+function putOnHold($jobid, $holdDate, $holdReason, $holdNotes){
     global $con;
+    $JOB_ID = mysqli_real_escape_string($con, $jobid);
+
+    $HOLD_REASON = mysqli_real_escape_string($con, $holdReason);
+    $HOLD_NOTES = mysqli_real_escape_string($con, $holdNotes);
+
+    $query = "UPDATE job_order";
+    $query .= "SET On_Hold_Date='$holdDate', On_Hold_Reason='$HOLD_REASON', ";
+    $query .= "On_Hold_Notes='$HOLD_NOTES', Status=on_Hold";
+    $query .= "WHERE Job_ID='$JOB_ID'";
+
+    $result = mysqli_query($con, $query);
+    if($result){
+        return $result;
+    } else {
+        return false;
+    }
 }
 
 function signOff($asset, $calibrationType, $resultOne, $resultTwo, $resultThree, $resultFour, $resultFive, $passFail1, $passFail2, $passFail3, $passFail4, $passFail5, $overallPassFail, $notes){
