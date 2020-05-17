@@ -162,8 +162,23 @@ function measures($measureId){
     global $con;
 }
 
-function startJob($jobId){
+function startJob($userid){
     global $con;
+    $USER_ID = mysqli_real_escape_string($con, $userid);
+
+    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location";
+    $query .= "FROM job_order, asset";
+    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
+    $query .= "AND User_ID = '$USER_ID'";
+    $query .= "AND Status = started";
+
+    $result = mysqli_query($con, $query);
+    if($result){
+        return $result;
+    } else {
+        die("Query Failed " . mysqli_error($con));
+        //return "Query failed";
+    }
 }
 
 function isUseridExist($userid){
