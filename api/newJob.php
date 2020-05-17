@@ -11,7 +11,7 @@ else{
     $asset_id = $_REQUEST['Asset_ID'];
     $type = $_REQUEST['Type'];
     $description = $_REQUEST['Description'];
-    $date_raised = date('Y-m-d M:i:s');
+    $date_raised = date('Y-m-d');
     $priority = $_REQUEST['Priority'];
 
         $result = newJob($user_id, $asset_id, $type, $description, $date_raised, $priority);

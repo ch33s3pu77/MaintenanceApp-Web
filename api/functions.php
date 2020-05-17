@@ -189,8 +189,18 @@ function notStarted($userid){
     }
 }
 
-function measures($measureId){
+function measures(){
     global $con;
+
+    $query = "SELECT BS_Measure, Upper_Tol, Lower_Tol";
+    $query .= "FROM measures";
+
+    $result = mysqli_query($con, $query);
+    if($result){
+        return $result;
+    } else {
+        die("Query Failed " . mysqli_error($con));
+    }
 }
 
 function startJob($userid){
