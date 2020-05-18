@@ -115,15 +115,16 @@ function jobOrder($jobid, $userid){
     }
 }
 
-function completed($userid){
+function completed($username){
     global $con;
-    $USER_ID = mysqli_real_escape_string($con, $userid);
+    $USER_NAME = mysqli_real_escape_string($con, $username);
 
     $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location";
-    $query .= "FROM job_order, asset";
+    $query .= "FROM job_order, asset, user";
     $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
-    $query .= "AND User_ID = '$USER_ID'";
-    $query .= "AND Status = complete";
+    $query .= "AND user.User_ID = job_order.User_ID";
+    $query .= "AND user.User_Name = '$USER_NAME'";
+    $query .= "AND job_order.Status = complete";
 
     $result = mysqli_query($con, $query);
     if($result){
