@@ -1,17 +1,17 @@
 <?php
 include "functions.php";
 
-if(empty($_REQUEST['User_ID'])){
+if(empty($_REQUEST['User_Name'])){
     header('Location: ../index.php');
 }
 else{
-    $userid = $_REQUEST['User_ID'];
+    $username = $_REQUEST['User_Name'];
     $output = array();
-    $useridExist = isUseridExist($userid);
+    $useridExist = isUseridExist($username);
 
     if($useridExist){
 
-        $result = notStarted($userid);
+        $result = notStarted($username);
         if($result != false){
             //$rows = mysqli_fetch_array($result);
             while($rows =mysqli_fetch_assoc($result)){
