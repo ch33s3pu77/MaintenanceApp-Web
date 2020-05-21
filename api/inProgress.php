@@ -21,11 +21,9 @@ else{
                 $output['Location'] = $rows['Location'];
                 echo json_encode($output);
             }
-
         }
     } else {
         echo json_encode("User ID does not exist.");
     }
-
 }
 ?>

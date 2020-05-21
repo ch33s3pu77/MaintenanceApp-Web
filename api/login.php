@@ -12,14 +12,8 @@ else{
     if($usernameExist){
         $result = login($username, $password);
         echo json_encode($result);
-        /*if($result){
-            echo json_encode($result);
-        } else {
-            echo json_encode($result);
-        }*/
     } else {
         echo json_encode("Username does not exist.");
     }
-
 }
 ?>

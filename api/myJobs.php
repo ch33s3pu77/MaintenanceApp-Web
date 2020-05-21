@@ -12,21 +12,17 @@ else{
     if($useridExist){
 
         $result = myJobs($username);
-        if($result != false){
-            //$rows = mysqli_fetch_array($result);
-            while($rows =mysqli_fetch_assoc($result)){
-               $output['Job_ID'] = $rows['Job_ID'];
-               $output['Type'] = $rows['Type'];
-               $output['Priority'] = $rows['Priority'];
-               $output['Status'] = $rows['Status'];
-               $output['Location'] = $rows['Location'];
-               echo json_encode($output);
-            }
+        $numOfRows = mysqli_num_rows($result);
 
+        if($numOfRows > 0){
+            //$rows = mysqli_fetch_array($result);
+            while($rows = mysqli_fetch_assoc($result)){
+               $output[] = $rows;
+            }
+            echo json_encode(array("jobOrders" => $output));
         }
     } else {
         echo json_encode("User ID does not exist.");
     }
-
 }
 ?>

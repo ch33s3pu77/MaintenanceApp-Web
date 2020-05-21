@@ -13,7 +13,6 @@ else{
     $description = $_REQUEST['Description'];
     $date_raised = date('Y-m-d');
     $priority = $_REQUEST['Priority'];
-
         $result = newJob($user_id, $asset_id, $type, $description, $date_raised, $priority);
         if($result){
             echo json_encode($result);

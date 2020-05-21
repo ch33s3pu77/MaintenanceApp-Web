@@ -25,7 +25,6 @@ if(empty($_REQUEST['Job_ID']) && empty($_REQUEST['User_ID'])){
         $output['Surname'] = $rows['Surname'];
         $output['Asset_Description'] = $rows['Asset_Description'];
         $output['Location'] = $rows['Location'];
-
         echo json_encode($output);
     } else {
         echo json_encode(false);
