@@ -7,21 +7,17 @@ if(empty($_REQUEST['User_Name'])){
 else{
     $username = $_REQUEST['User_Name'];
     $output = array();
-    $useridExist = isUseridExist($username);
-
-    if($useridExist){
-
+    $userNameExist = isUserNameExist($username);
+    if($userNameExist){
         $result = notStarted($username);
-        if($result != false){
+        $numOfRows = mysqli_num_rows($result);
+        if($numOfRows > 0){
             //$rows = mysqli_fetch_array($result);
-            while($rows =mysqli_fetch_assoc($result)){
-                $output['Job_ID'] = $rows['Job_ID'];
-                $output['Type'] = $rows['Type'];
-                $output['Priority'] = $rows['Priority'];
-                $output['Location'] = $rows['Location'];
-                echo json_encode($output);
+            while($rows = mysqli_fetch_assoc($result)){
+                $output[] = $rows;
             }
         }
+        echo json_encode(array("notStarted"=>$output));
     } else {
         echo json_encode("User ID does not exist.");
     }

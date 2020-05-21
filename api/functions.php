@@ -215,10 +215,10 @@ function startJob(){
 
 }
 
-function isUseridExist($userid){
+function isUserNameExist($username){
     global $con;
 
-    $query = "SELECT User_ID FROM users WHERE email = '$userid'";
+    $query = "SELECT User_Name FROM users WHERE User_Name = '$username'";
     $result = mysqli_query($con, $query);
     if($result){
         return true;
