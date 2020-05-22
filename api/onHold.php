@@ -17,7 +17,7 @@ else{
                 $output[] = $rows;
             }
         }
-        echo json_encode($output);
+        echo json_encode(array("onHold"=>$output));
     } else {
         echo json_encode("User ID does not exist.");
     }
