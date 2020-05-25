@@ -1,19 +1,20 @@
 <?php
 include "../auth/db.php";
 
-function login($username, $password)
-{
+function login($username, $password){
     global $con;
     $USER_NAME = mysqli_real_escape_string($con, $username);
     $USER_PASSWORD = mysqli_real_escape_string($con, $password);
 
+
     $query = "SELECT * FROM user WHERE User_Name = '$USER_NAME'";
     $result = mysqli_query($con, $query);
+
     if ($result) {
         $rowcount = mysqli_num_rows($result);
         if ($rowcount == 1) {
             $user = mysqli_fetch_array($result);
-            $PASSWORD = $user['password'];
+            $PASSWORD = password_hash($user['Password'], PASSWORD_ARGON2ID) ;
 
             if (password_verify($USER_PASSWORD, $PASSWORD)) {
                 return true;
@@ -69,6 +70,14 @@ function putOnHold($jobid, $holdDate, $holdReason, $holdNotes){
 
 function signOff($asset, $calibrationType, $resultOne, $resultTwo, $resultThree, $resultFour, $resultFive, $passFail1, $passFail2, $passFail3, $passFail4, $passFail5, $overallPassFail, $notes){
     global $con;
+    $ASSET = mysqli_real_escape_string($con, $asset);
+    $CALIBRATIONTYPE = mysqli_real_escape_string($con, $calibrationType);
+    $RESULTONE = mysqli_real_escape_string($con, $resultOne);
+    $RESULTTWO = mysqli_real_escape_string($con, $resultTwo);
+    $RESULTTHREE = mysqli_real_escape_string($con, $resultThree);
+    $RESULTFOUR = mysqli_real_escape_string($con, $resultFour);
+    $RESULTFIVE = mysqli_real_escape_string($con, $resultFive);
+    $PASSFAIL1 = mysqli_real_escape_string($con, $passFail1);
 }
 
 function myJobs($username){
@@ -197,11 +206,12 @@ function notStarted($username){
     }
 }
 
-function measures(){
+function measures($assetID){
     global $con;
 
-    $query = "SELECT BS_Measure, Upper_Tol, Lower_Tol";
-    $query .= "FROM measures";
+    $query = "SELECT Upper_Tol, Lower_Tol, Measure_1, Measure_2, Measure_3, Measure_4, Measure5";
+    $query .= "FROM measures, asset";
+    $query .= "asset.Measure_ID = measures.Measure_ID";
 
     $result = mysqli_query($con, $query);
     if($result){
@@ -211,14 +221,21 @@ function measures(){
     }
 }
 
-function startJob(){
+function startJob($jobid, $datestarted){
+    global $con;
+
+    $query = "UPDATE job_order";
+    $query .= "SET Status = 'started', Date_Started = '$datestarted'";
+    $query .= "WHERE Job_ID = '$jobid'";
+
+    $result = mysqli_query($con, $query);
 
 }
 
 function isUserNameExist($username){
     global $con;
 
-    $query = "SELECT User_Name FROM users WHERE User_Name = '$username'";
+    $query = "SELECT User_Name FROM user WHERE User_Name = '$username'";
     $result = mysqli_query($con, $query);
     if($result){
         return true;

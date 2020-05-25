@@ -1,12 +1,11 @@
 <?php
 include "functions.php";
 
-if(empty($_REQUEST['User_Name']) || empty($_REQUEST['Password'])){
+if(empty($_REQUEST['username']) || empty($_REQUEST['password'])){
     header('Location: ../index.php');
-}
-else{
-    $username = $_REQUEST['User_Name'];
-    $password = $_REQUEST['Password'];
+} else{
+    $username = $_REQUEST['username'];
+    $password = $_REQUEST['password'];
 
     $usernameExist = isUsernameExist($username);
     if($usernameExist){
