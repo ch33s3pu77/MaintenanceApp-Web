@@ -37,7 +37,7 @@ function newJob($userid, $asset, $calibrationType, $notes, $priority, $dateRaise
     $DESCRIPTION = mysqli_real_escape_string($con, $notes);
     $PRIORITY = mysqli_real_escape_string($con, $priority);
 
-    $query = "INSERT INTO 'job_order'('User_ID','Asset_ID','Type','Description','Date_Raised','Priority', 'Status')";
+    $query = "INSERT INTO 'job_order'('User_ID','Asset_ID','Type','Description','Date_Raised','Priority', 'Status') ";
     $query .= "VALUES('$USER_ID','$ASSET_ID','$CALIBRATION_TYPE','$DESCRIPTION','$dateRaised','$PRIORITY', 'not_started')";
 
     $result = mysqli_query($query);
@@ -55,9 +55,9 @@ function putOnHold($jobid, $holdDate, $holdReason, $holdNotes){
     $HOLD_REASON = mysqli_real_escape_string($con, $holdReason);
     $HOLD_NOTES = mysqli_real_escape_string($con, $holdNotes);
 
-    $query = "UPDATE job_order";
+    $query = "UPDATE job_order ";
     $query .= "SET On_Hold_Date='$holdDate', On_Hold_Reason='$HOLD_REASON', ";
-    $query .= "On_Hold_Notes='$HOLD_NOTES', Status='on_Hold'";
+    $query .= "On_Hold_Notes='$HOLD_NOTES', Status='on_hold' ";
     $query .= "WHERE Job_ID='$JOB_ID'";
 
     $result = mysqli_query($con, $query);
@@ -68,7 +68,8 @@ function putOnHold($jobid, $holdDate, $holdReason, $holdNotes){
     }
 }
 
-function signOff($asset, $calibrationType, $resultOne, $resultTwo, $resultThree, $resultFour, $resultFive, $passFail1, $passFail2, $passFail3, $passFail4, $passFail5, $overallPassFail, $notes){
+function signOff($asset, $calibrationType, $resultOne, $resultTwo, $resultThree, $resultFour, $resultFive,
+                 $passFail1, $passFail2, $passFail3, $passFail4, $passFail5, $overallPassFail, $notes){
     global $con;
     $ASSET = mysqli_real_escape_string($con, $asset);
     $CALIBRATIONTYPE = mysqli_real_escape_string($con, $calibrationType);
@@ -78,6 +79,24 @@ function signOff($asset, $calibrationType, $resultOne, $resultTwo, $resultThree,
     $RESULTFOUR = mysqli_real_escape_string($con, $resultFour);
     $RESULTFIVE = mysqli_real_escape_string($con, $resultFive);
     $PASSFAIL1 = mysqli_real_escape_string($con, $passFail1);
+    $PASSFAIL2 = mysqli_real_escape_string($con, $passFail2);
+    $PASSFAIL3 = mysqli_real_escape_string($con, $passFail3);
+    $PASSFAIL4 = mysqli_real_escape_string($con, $passFail4);
+    $PASSFAIL5 = mysqli_real_escape_string($con, $passFail5);
+    $OVERALL = mysqli_real_escape_string($con, $overallPassFail);
+    $NOTES = mysqli_real_escape_string($con, $notes);
+
+    $query = "INSERT INTO `results` (`Notes`, `Overall_Result`, `Result_1`, ";
+    $query .= "`Pass_Fail_1`, `Result_2`, `Pass_Fail_2`, `Result_3`, `Pass_Fail_3`, `Result_4`, `Pass_Fail_4`, ";
+    $query .= "`Result_5`, `Pass_Fail_5`) ";
+    $query .= "VALUES ('$NOTES', '$OVERALL', '$RESULTONE', '$PASSFAIL1', '$RESULTTWO', '$PASSFAIL2', ";
+    $query .= "'$RESULTTHREE', '$PASSFAIL3', '$RESULTFOUR', '$PASSFAIL4', '$RESULTFIVE', '$PASSFAIL5')";
+    $result = mysqli_query($con, $query);
+    if($result){
+        return true;
+    } else {
+        die("Query Failed " . mysqli_error($con));
+    }
 }
 
 function myJobs($username){
@@ -85,10 +104,10 @@ function myJobs($username){
     $USER_NAME = mysqli_real_escape_string($con, $username);
 
     $query = "SELECT job_order.Job_ID, job_order.Type, ";
-    $query .= "job_order.Priority, job_order.Status, asset.Location";
-    $query .= "FROM job_order, asset, user";
-    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
-    $query .= "AND user.User_ID = job_order.User_iD";
+    $query .= "job_order.Priority, job_order.Status, asset.Location ";
+    $query .= "FROM job_order, asset, user ";
+    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID ";
+    $query .= "AND user.User_ID = job_order.User_ID ";
     $query .= "AND user.User_Name = '$USER_NAME'";
 
     $result = mysqli_query($con, $query);
@@ -105,17 +124,17 @@ function jobOrder($jobid, $username){
     $USER_NAME = mysqli_real_escape_string($con, $username);
     $JOB_ID = mysqli_real_escape_string($con, $jobid);
 
-    $query = "SELECT job_order.Job_ID, job_order.Asset_ID,";
-    $query .= "job_order.Description, job_order.Due_By,";
+    $query = "SELECT job_order.Job_ID, job_order.Asset_ID, ";
+    $query .= "job_order.Description, job_order.Due_By, ";
     $query .= "job_order.Date_Started, job_order.On_Hold_Date,";
-    $query .= "job_order.On_Hold_Reason,";
-    $query .= "job_order.Date_Completed, job_order.Priority,";
-    $query .= "job_order.Status, user.Forename, user.Surname,";
-    $query .= "asset.Description, asset.Location";
+    $query .= "job_order.On_Hold_Reason, ";
+    $query .= "job_order.Date_Completed, job_order.Priority, ";
+    $query .= "job_order.Status, user.Forename, user.Surname, ";
+    $query .= "asset.Description, asset.Location ";
     $query .= "FROM job_order, user, asset";
-    $query .= "WHERE user.User_ID = job_order.User_ID";
-    $query .= "AND asset.Asset_ID = job_order.Asset_ID";
-    $query .= "AND user.User_Name = '$USER_NAME'";
+    $query .= "WHERE user.User_ID = job_order.User_ID ";
+    $query .= "AND asset.Asset_ID = job_order.Asset_ID ";
+    $query .= "AND user.User_Name = '$USER_NAME' ";
     $query .= "AND job_order.Job_ID = '$JOB_ID'";
 
     $result = mysqli_query($con, $query);
@@ -130,11 +149,11 @@ function completed($username){
     global $con;
     $USER_NAME = mysqli_real_escape_string($con, $username);
 
-    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location";
-    $query .= "FROM job_order, asset, user";
-    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
-    $query .= "AND user.User_ID = job_order.User_ID";
-    $query .= "AND user.User_Name = '$USER_NAME'";
+    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location ";
+    $query .= "FROM job_order, asset, user ";
+    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID ";
+    $query .= "AND user.User_ID = job_order.User_ID ";
+    $query .= "AND user.User_Name = '$USER_NAME' ";
     $query .= "AND job_order.Status = complete";
 
     $result = mysqli_query($con, $query);
@@ -150,11 +169,11 @@ function inProgress($username){
     global $con;
     $USER_NAME = mysqli_real_escape_string($con, $username);
 
-    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location";
-    $query .= "FROM job_order, asset, user";
-    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
-    $query .= "AND user.User_ID = job_order.User_ID";
-    $query .= "AND user.User_Name = '$USER_NAME'";
+    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location ";
+    $query .= "FROM job_order, asset, user ";
+    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID ";
+    $query .= "AND user.User_ID = job_order.User_ID ";
+    $query .= "AND user.User_Name = '$USER_NAME' ";
     $query .= "AND job_order.Status = in_progress";
 
     $result = mysqli_query($con, $query);
@@ -170,11 +189,11 @@ function onHold($username){
     global $con;
     $USER_NAME = mysqli_real_escape_string($con, $username);
 
-    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location";
-    $query .= "FROM job_order, asset, user";
-    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
-    $query .= "AND user.User_ID = job_order.User_ID";
-    $query .= "AND user.User_Name = '$USER_NAME'";
+    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location ";
+    $query .= "FROM job_order, asset, user ";
+    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID ";
+    $query .= "AND user.User_ID = job_order.User_ID ";
+    $query .= "AND user.User_Name = '$USER_NAME' ";
     $query .= "AND job_order.Status = 'on_hold'";
 
     $result = mysqli_query($con, $query);
@@ -190,11 +209,11 @@ function notStarted($username){
     global $con;
     $USER_NAME = mysqli_real_escape_string($con, $username);
 
-    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location";
-    $query .= "FROM job_order, asset, user";
-    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID";
-    $query .= "AND user.User_ID = job_order.User_ID";
-    $query .= "AND user.User_Name = '$USER_NAME'";
+    $query = "SELECT job_order.Job_ID, job_order.Type, job_order.Priority, asset.Location ";
+    $query .= "FROM job_order, asset, user ";
+    $query .= "WHERE asset.Asset_ID = job_order.Asset_ID ";
+    $query .= "AND user.User_ID = job_order.User_ID ";
+    $query .= "AND user.User_Name = '$USER_NAME' ";
     $query .= "AND job_order.Status = 'not_started'";
 
     $result = mysqli_query($con, $query);
@@ -209,8 +228,8 @@ function notStarted($username){
 function measures($assetID){
     global $con;
 
-    $query = "SELECT Upper_Tol, Lower_Tol, Measure_1, Measure_2, Measure_3, Measure_4, Measure5";
-    $query .= "FROM measures, asset";
+    $query = "SELECT Upper_Tol, Lower_Tol, Measure_1, Measure_2, Measure_3, Measure_4, Measure5 ";
+    $query .= "FROM measures, asset ";
     $query .= "asset.Measure_ID = measures.Measure_ID";
 
     $result = mysqli_query($con, $query);
@@ -225,11 +244,30 @@ function startJob($jobid, $datestarted){
     global $con;
 
     $query = "UPDATE job_order";
-    $query .= "SET Status = 'started', Date_Started = '$datestarted'";
+    $query .= "SET Status = 'started', Date_Started = '$datestarted' ";
     $query .= "WHERE Job_ID = '$jobid'";
 
     $result = mysqli_query($con, $query);
+    if($result){
+        return true;
+    } else {
+        die("Query Failed " . mysqli_error($con));
+    }
 
+}
+
+function getAssetID(){
+    global $con;
+
+    $query = "SELECT Asset_ID ";
+    $query .= "FROM asset";
+
+    $result = mysqli_query($con, $query);
+    if($result){
+        return $result;
+    } else {
+        die("Query Failed " . mysqli_error($con));
+    }
 }
 
 function isUserNameExist($username){

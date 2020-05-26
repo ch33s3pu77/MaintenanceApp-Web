@@ -1,11 +1,11 @@
 <?php
 include "functions.php";
 
-if(empty($_REQUEST['User_Name'])){
+if(empty($_REQUEST['username'])){
     header('Location: ../index.php');
 }
 else{
-    $username = $_REQUEST['User_Name'];
+    $username = $_REQUEST['username'];
     $output = array();
     $userNameExist = isUserNameExist($username);
     if($userNameExist){
@@ -19,7 +19,7 @@ else{
         }
         echo json_encode(array("jobOrders" => $output));
     } else {
-        echo json_encode("User ID does not exist.");
+        echo json_encode("Username does not exist.");
     }
 }
 ?>

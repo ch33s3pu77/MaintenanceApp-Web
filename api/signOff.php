@@ -1,1 +1,5 @@
 <?php
+include "functions.php";
+
+
+?>
